@@ -1,0 +1,3 @@
+[submodule "ckw"]
+	path = ckw
+	url = git://github.com/ckw-mod/ckw-mod.git
