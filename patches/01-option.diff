@@ -1,0 +1,23 @@
+diff --git a/option.h b/option.h
+index 1112160..012d564 100644
+--- a/option.h
++++ b/option.h
+@@ -1,6 +1,7 @@
+ #ifndef __CK_OPT_H__
+ #define __CK_OPT_H__
+ 
++#include "gtest/gtest.h"
+ #include "ckw.h"
+ #include <string>
+ 
+@@ -71,6 +72,10 @@ public:
+ 
+ 
+ protected:
++	FRIEND_TEST(OptionTest, cmdsMake);
++	FRIEND_TEST(OptionTest, geometry);
++	FRIEND_TEST(OptionTest, setOption);
++
+ 	void	cmdsMake(int argc, char *argv[]);
+ 	void	geometry(const char *str);
+ 	int	setOption(const char *name, const char *value, bool rsrc);
