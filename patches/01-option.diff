@@ -1,5 +1,5 @@
 diff --git a/option.h b/option.h
-index 1112160..012d564 100644
+index 1112160..cd1acda 100644
 --- a/option.h
 +++ b/option.h
 @@ -1,6 +1,7 @@
@@ -10,13 +10,15 @@ index 1112160..012d564 100644
  #include "ckw.h"
  #include <string>
  
-@@ -71,6 +72,10 @@ public:
+@@ -71,6 +72,12 @@ public:
  
  
  protected:
 +	FRIEND_TEST(OptionTest, cmdsMake);
 +	FRIEND_TEST(OptionTest, geometry);
 +	FRIEND_TEST(OptionTest, setOption);
++	FRIEND_TEST(OptionTest, setOptionError);
++	FRIEND_TEST(OptionTest, loadXdefaults);
 +
  	void	cmdsMake(int argc, char *argv[]);
  	void	geometry(const char *str);
