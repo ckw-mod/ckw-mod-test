@@ -206,58 +206,94 @@ TEST(OptionTest, setOption) {
 	{
 		// 設定ファイルによる設定
 		ckOpt opt;
-		opt.setOption("fontSize", "20", true);
+		int skip;
+		skip = opt.setOption("fontSize", "20", true);
 		EXPECT_EQ(20, opt.getFontSize());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("foreground", "#332211", true);
+		skip = opt.setOption("foreground", "#332211", true);
 		EXPECT_EQ(RGB(0x33,0x22,0x11), opt.getColorFg());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("geometry", "100x20+0-0", true);
+		skip = opt.setOption("geometry", "100x20+0-0", true);
 		EXPECT_EQ(100, opt.getWinCharW());
 		EXPECT_EQ(20, opt.getWinCharH());
 		EXPECT_TRUE(opt.isWinPos());
 		EXPECT_EQ(0, opt.getWinPosX());
 		EXPECT_EQ(-1, opt.getWinPosY());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("scrollRight", "0", true);
+		skip = opt.setOption("scrollRight", "0", true);
 		EXPECT_FALSE(opt.isScrollRight());
+		EXPECT_EQ(2, skip);
 	}
 	{
 		// ロングオプションによる設定
 		ckOpt opt;
-		opt.setOption("--fontSize", "20", false);
+		int skip;
+		skip = opt.setOption("--fontSize", "20", false);
 		EXPECT_EQ(20, opt.getFontSize());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("--foreground", "#332211", false);
+		skip = opt.setOption("--foreground", "#332211", false);
 		EXPECT_EQ(RGB(0x33,0x22,0x11), opt.getColorFg());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("--geometry", "100x20+0-0", false);
+		skip = opt.setOption("--geometry", "100x20+0-0", false);
 		EXPECT_EQ(100, opt.getWinCharW());
 		EXPECT_EQ(20, opt.getWinCharH());
 		EXPECT_TRUE(opt.isWinPos());
 		EXPECT_EQ(0, opt.getWinPosX());
 		EXPECT_EQ(-1, opt.getWinPosY());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("--scrollRight", "0", false);
+		skip = opt.setOption("--scrollRight", "0", false);
 		EXPECT_FALSE(opt.isScrollRight());
+		EXPECT_EQ(2, skip);
 	}
 	{
 		// ショートオプションによる設定
 		ckOpt opt;
-		opt.setOption("-fs", "20", false);
+		int skip;
+		skip = opt.setOption("-fs", "20", false);
 		EXPECT_EQ(20, opt.getFontSize());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("-fg", "#332211", false);
+		skip = opt.setOption("-fg", "#332211", false);
 		EXPECT_EQ(RGB(0x33,0x22,0x11), opt.getColorFg());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("-g", "100x20+0-0", false);
+		skip = opt.setOption("-g", "100x20+0-0", false);
 		EXPECT_EQ(100, opt.getWinCharW());
 		EXPECT_EQ(20, opt.getWinCharH());
 		EXPECT_TRUE(opt.isWinPos());
 		EXPECT_EQ(0, opt.getWinPosX());
 		EXPECT_EQ(-1, opt.getWinPosY());
+		EXPECT_EQ(2, skip);
 
-		opt.setOption("+sr", NULL, false);
+		skip = opt.setOption("+sr", NULL, false);
 		EXPECT_FALSE(opt.isScrollRight());
+		EXPECT_EQ(1, skip);
 	}
+}
+
+TEST(OptionTest, setOptionError) {
+	ckOpt opt;
+	int skip;
+	// 引数なのに '-' で始まっていない
+	skip = opt.setOption("fs", "20", false);
+	EXPECT_NE(20, opt.getFontSize());
+	EXPECT_EQ(0, skip);
+
+	// 値が指定されない
+	skip = opt.setOption("--scrollRight", NULL, false);
+	EXPECT_EQ(0, skip);
+	skip = opt.setOption("--fontSize", NULL, false);
+	EXPECT_EQ(0, skip);
+	skip = opt.setOption("color7", NULL, true);
+	EXPECT_EQ(0, skip);
+
+	// 未知のパラメータ
+	skip = opt.setOption("color255", "red", true);
+	EXPECT_EQ(0, skip);
 }
