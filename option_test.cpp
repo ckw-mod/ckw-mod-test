@@ -297,3 +297,17 @@ TEST(OptionTest, setOptionError) {
 	skip = opt.setOption("color255", "red", true);
 	EXPECT_EQ(0, skip);
 }
+
+TEST(OptionTest, loadXdefaults) {
+	ckOpt opt;
+	// 001.cfg test
+	opt._loadXdefaults("001.cfg");
+	EXPECT_EQ(20, opt.getFontSize());
+	EXPECT_EQ(RGB(0x33,0x22,0x11), opt.getColorFg());
+	EXPECT_EQ(100, opt.getWinCharW());
+	EXPECT_EQ(20, opt.getWinCharH());
+	EXPECT_TRUE(opt.isWinPos());
+	EXPECT_EQ(0, opt.getWinPosX());
+	EXPECT_EQ(-1, opt.getWinPosY());
+	EXPECT_FALSE(opt.isScrollRight());
+}
