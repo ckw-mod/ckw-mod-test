@@ -19,3 +19,13 @@ ipch/
 *.pdb
 
 Thumbs.db
+
+CMakeCache.txt
+CMakeFiles/
+CTestTestfile.cmake
+Testing/
+cmake_install.cmake
+*.manifest
+*.manifest.res
+*.resource.txt
+*.ilk
